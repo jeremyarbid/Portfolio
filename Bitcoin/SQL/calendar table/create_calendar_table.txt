@@ -1,0 +1,13 @@
+CREATE TABLE calendar (
+    date_key INT PRIMARY KEY,          -- Primary Key in YYYYMMDD format
+    date DATE NOT NULL,                -- Actual date
+    year INT NOT NULL,                 -- Year
+    month INT NOT NULL,                -- Month (1-12)
+    month_name TEXT NOT NULL,          -- Full name of the month (e.g., 'January')
+    week_of_year INT NOT NULL,         -- ISO Week number of the year (1-53)
+    day INT NOT NULL,                  -- Day of the month (1-31)
+    day_name TEXT NOT NULL,            -- Name of the day (e.g., 'Monday')
+    is_weekend BOOLEAN NOT NULL,       -- Whether the date is a weekend
+    is_year_to_date BOOLEAN NOT NULL,  -- Whether the date is within the current year's YTD
+    is_holiday BOOLEAN DEFAULT FALSE   -- Whether the date is a holiday (manually defined)
+);

@@ -1,0 +1,36 @@
+WITH holidays AS (
+    -- Fixed holidays
+    SELECT 'New Year''s Day' AS holiday_name, '2025-01-01'::DATE AS holiday_date UNION
+    SELECT 'Independence Day', '2025-07-04' UNION
+    SELECT 'Christmas Day', '2025-12-25' UNION
+
+    -- Martin Luther King Jr. Day (third Monday of January)
+    SELECT 'Martin Luther King Jr. Day', 
+           date_trunc('year', '2025-01-01'::DATE) + (14 + (7 - EXTRACT(DOW FROM date_trunc('year', '2025-01-01'::DATE))::INT) % 7) * INTERVAL '1 day' UNION
+
+    -- Presidents' Day (third Monday of February)
+    SELECT 'Presidents'' Day', 
+           date_trunc('year', '2025-02-01'::DATE) + (14 + (7 - EXTRACT(DOW FROM date_trunc('year', '2025-02-01'::DATE))::INT) % 7) * INTERVAL '1 day' UNION
+
+    -- Memorial Day (last Monday of May)
+    SELECT 'Memorial Day', 
+           date_trunc('year', '2025-05-01'::DATE) + (31 - EXTRACT(DOW FROM date_trunc('year', '2025-05-01'::DATE) + INTERVAL '1 day')) % 7 * INTERVAL '1 day' UNION
+
+    -- Labor Day (first Monday of September)
+    SELECT 'Labor Day', 
+           date_trunc('year', '2025-09-01'::DATE) + (7 - EXTRACT(DOW FROM date_trunc('year', '2025-09-01'::DATE))::INT) * INTERVAL '1 day' UNION
+
+    -- Columbus Day (second Monday of October)
+    SELECT 'Columbus Day', 
+           date_trunc('year', '2025-10-01'::DATE) + (7 + 7 - EXTRACT(DOW FROM date_trunc('year', '2025-10-01'::DATE))::INT) % 7 * INTERVAL '1 day' UNION
+
+    -- Veterans Day
+    SELECT 'Veterans Day', '2025-11-11' UNION
+
+    -- Thanksgiving Day (fourth Thursday of November)
+    SELECT 'Thanksgiving Day', 
+           date_trunc('year', '2025-11-01'::DATE) + (4 + (7 - EXTRACT(DOW FROM date_trunc('year', '2025-11-01'::DATE))::INT) % 7) * INTERVAL '1 day'
+)
+UPDATE calendar
+SET is_holiday = TRUE
+WHERE date IN (SELECT holiday_date FROM holidays);

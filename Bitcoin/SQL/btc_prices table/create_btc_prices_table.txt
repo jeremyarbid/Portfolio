@@ -1,0 +1,5 @@
+CREATE TABLE btc_prices (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP NOT NULL,
+    price_usd NUMERIC NOT NULL
+);

@@ -1,0 +1,8 @@
+-- The 'date_key' will store a foreign key reference to the 'dim_date' table for normalization of date-related data
+
+UPDATE btc_prices
+SET date_key = (
+    SELECT date_id
+    FROM dim_date
+    WHERE dim_date.date = DATE(btc_prices.timestamp) -- Match the date part of 'timestamp' with 'dim_date.date'
+);
